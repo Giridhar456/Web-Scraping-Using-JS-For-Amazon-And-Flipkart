@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="couponlink">
+    <button onclick="FlipkartFashion()">Flipkart Fashion</button>
+    <button onclick="FlipkartPhonesWithOffers()">Flipkart Phones With Offers</button>
+    <button onclick="FlipkartLaptopsWithOffers()">Flipkart Laptops With Offers</button><br/>
+    <p>Product Details</p>
+    <textarea class="disc" id="description"></textarea><br/>
+    <p>Product Offer Details</p>
+    <textarea class="disc" id="content" ></textarea><br/>
+    <p>Product Title</p>
+    <input type="text" class="title" id="title"><br/>
+    <p>Product Offer Price</p>
+    <input type="text" class="oprice" id="strike"><br/>
+    <p>Product Original Price</p>
+    <input type="text" class="price" id="price"><br/>
+    <p>Product Image URL</p>
+    <input type="text" id="img_url"><br/>
+    <p>Product Offer Percentage</p>
+    <input type="text" class="offer" id="offer"><br/><br/>
+    <img  id="setImage" class="uel"/>
+</body>
+</html>
+<script>    
+    async function FlipkartFashion() {
+        const product_url = document.getElementById("couponlink",'Access-Control-Allow-Credentials', 'true').value;
+        fetch(product_url)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(html){
+                var parser = new DOMParser();
+                let doc = parser.parseFromString(html,"text/html");
+                let Product_Descriptions = doc.querySelector("._20PGcF").innerText;
+                document.getElementById("description").value = Product_Descriptions;
+                console.log(Product_Descriptions);
+                let Product_Offers = doc.querySelector("._3nSGUy").innerText;
+                document.getElementById("content").value = Product_Offers.replace(/\T&C(?=[A-Z])/g, '<br /><br />');
+                console.log(Product_Offers);
+                let BrandName = doc.querySelector("._2J4LW6").innerText;
+                let ProductName = doc.querySelector("._35KyD6").innerText;
+                document.getElementById("title").value= BrandName+ProductName;
+                console.log(BrandName+ProductName);
+                let Original_Price = doc.querySelector("._3auQ3N ").innerText;
+                document.getElementById("strike").value = Original_Price.slice(1); 
+                console.log(Original_Price);
+                let Selling_Price = doc.querySelector("._1vC4OE").innerText;
+                document.getElementById("price").value = Selling_Price.slice(1);
+                console.log(Selling_Price);
+                let Offer_Percentage = doc.querySelector(".VGWI6T").innerText;
+                document.getElementById("offer").value = Offer_Percentage.slice(0,-5);
+                console.log(Offer_Percentage);
+                let Product_Image = doc.querySelector("._1k8TbK").src;
+                document.getElementById("img_url").value = Product_Image;
+                console.log(Product_Image);
+            })    
+    };
+    async function FlipkartPhonesWithOffers() {
+        const product_url = document.getElementById("couponlink",'Access-Control-Allow-Credentials', 'true').value;
+        fetch(product_url)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(html){
+                var parser = new DOMParser();
+                let doc = parser.parseFromString(html,"text/html");
+                let Product_Descriptions = doc.querySelector("._1aK10F").innerText;
+                document.getElementById("description").value = Product_Descriptions;
+                console.log(Product_Descriptions);
+                let Product_Offers = doc.querySelector("._3nSGUy").innerText;
+                document.getElementById("content").value = Product_Offers.replace(/\T&C(?=[A-Z])/g, '<br /><br />');
+                console.log(Product_Offers);
+                let BrandName = doc.querySelector("._35KyD6").innerText;
+                let ProductName = doc.querySelector("._35KyD6").innerText;
+                document.getElementById("title").value= BrandName+ProductName;
+                console.log(BrandName+ProductName);
+                let Selling_Price = doc.querySelector("._1vC4OE").innerText;
+                document.getElementById("price").value = Selling_Price.slice(1);
+                console.log(Selling_Price);
+                let Original_Price = doc.querySelector("._3auQ3N ").innerText;
+                document.getElementById("strike").value = Original_Price.slice(1); 
+                console.log(Original_Price);
+                let Offer_Percentage = doc.querySelector(".VGWI6T").innerText;
+                document.getElementById("offer").value = Offer_Percentage.slice(0,-5);
+                console.log(Offer_Percentage);
+                let Product_Image = doc.querySelector("._1k8TbK").src;
+                document.getElementById("img_url").value = Product_Image;
+                console.log(Product_Image);
+            })    
+    };
+    async function FlipkartLaptopsWithOffers() {
+        const product_url = document.getElementById("couponlink",'Access-Control-Allow-Credentials', 'true').value;
+        fetch(product_url)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(html){
+                var parser = new DOMParser();
+                let doc = parser.parseFromString(html,"text/html");
+                let Product_Descriptions = doc.querySelector("._1aK10F").innerText;
+                document.getElementById("description").value = Product_Descriptions;
+                console.log(Product_Descriptions);
+                let Product_Offers = doc.querySelector("._3D89xM").innerText;
+                document.getElementById("content").value = Product_Offers.replace(/\T&C(?=[A-Z])/g, '<br /><br />');
+                console.log(Product_Offers);
+                let BrandName = doc.querySelector("._35KyD6").innerText;
+                let ProductName = doc.querySelector("._35KyD6").innerText;
+                document.getElementById("title").value= BrandName+ProductName;
+                console.log(BrandName+ProductName);
+                let Selling_Price = doc.querySelector("._1vC4OE").innerText;
+                document.getElementById("price").value = Selling_Price.slice(1);
+                console.log(Selling_Price);
+                let Original_Price = doc.querySelector("._3auQ3N ").innerText;
+                document.getElementById("strike").value = Original_Price.slice(1); 
+                console.log(Original_Price);
+                let Offer_Percentage = doc.querySelector(".VGWI6T").innerText;
+                document.getElementById("offer").value = Offer_Percentage.slice(0,-5);
+                console.log(Offer_Percentage);
+                let Product_Image = doc.querySelector(".Pk2voS").innerHTML;
+                document.getElementById("img_url").value = Product_Image;
+                console.log(Product_Image);
+            })    
+    };
+</script>
