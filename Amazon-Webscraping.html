@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="producturl">
+    <button onclick="fetchamazon()">Fetch Data</button>
+    <button onclick="fetchamazondeal()">Fetch Deal's Data</button>
+    <button onclick="fetchamazonsale()">Fetch Sales's Data</button><br/>
+    <p>product Description:</p>
+    <textarea class="disc" id="description"></textarea><br/>
+    <p>product Offers:</p>
+    <textarea class="disc" id="content" ></textarea><br/>
+    <p>product Title:</p>
+    <input type="text" class="title" id="title"><br/>
+    <p>product Offer Price:</p>
+    <input type="text" class="oprice" id="strike"><br/>
+    <p>product Original Price:</p>
+    <input type="text" class="price" id="price"><br/>
+    <p>product Image URL:</p>
+    <input type="text" id="img_url"><br/>
+    <p>product Offer Percentage:</p>
+    <input type="text" class="offer" id="offer"><br/><br/>
+    <!-- <img  id="setImage" class="uel"/> -->
+</body>
+</html>
+<script>
+    async function fetchamazon() {
+        const product_url = document.getElementById("producturl",'Access-Control-Allow-Credentials', 'true').value;
+        fetch(product_url)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(html){
+                var parser = new DOMParser();
+                let doc = parser.parseFromString(html,"text/html");
+                let productdiscreption = doc.querySelector("#productDescription").innerText;
+                var product_discreption_trim = productdiscreption.replace( /\s\s+/g, ' ' );
+                var product_discreption_trim_br = product_discreption_trim.replace(/\Here's how (?=[A-Z])/g, '<br /><br />');
+                let offer_text = doc.querySelector("#sopp_feature_div").innerText.trim().slice();
+                var split_offer_text = offer_text.split('}')[24].replace( /\s\s+/g, ' ' );
+                console.log(split_offer_text);
+                var off_txt_br = split_offer_text.replace(/\Here's how (?=[A-Z])/g, '<br /><br />');
+                let price_tag = doc.querySelector("#priceblock_ourprice").innerText.slice(2,-3);
+               console.log( parseInt(price_tag));
+                let original_tag = doc.querySelector("#price").innerText;
+                var tag_trim = original_tag.trim();
+                var tag_slice = tag_trim.slice(15);
+                var split_tag_splice = tag_slice.split('.')[0].trim();
+                let discriptioin = doc.querySelector("#productTitle").innerText.trim();
+                console.log(discriptioin); 
+                let offer_fetch  = doc.querySelector("#regularprice_savings").innerText.trim().slice(-4,-2);
+                var offer_replace = offer_fetch.replace("(", "");
+                let ooff  = doc.querySelector("#regularprice_savings").innerText.trim().slice(10,-8);
+                var offee = ooff.trim();
+                var o = offee.slice(1);
+                let img = doc.querySelector("#landingImage").src;
+                let img_alt = doc.querySelector("#landingImage").alt;
+                document.getElementById("content").value= off_txt_br;//done
+                document.getElementById("price").value= price_tag;//done
+                document.getElementById("description").value= product_discreption_trim;//done
+                document.getElementById("title").value= discriptioin;//done
+                document.getElementById("offer").value= offer_replace;
+                document.getElementById("strike").value= split_tag_splice;
+                document.getElementById("img_url").value= img;
+                document.querySelector(".uel").textContent = img;
+            })
+            // .catch(function(error){
+            //     alert("Failed To Load Data",error);
+            // })
+    };
+    async function fetchamazonsale() {
+        const product_url = document.getElementById("producturl",'Access-Control-Allow-Credentials', 'true').value;
+        fetch(product_url)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(html){
+                var parser = new DOMParser();
+                let doc = parser.parseFromString(html,"text/html");
+                let productdiscreption = doc.querySelector("#productDescription").innerText;
+                var product_discreption_trim = productdiscreption.replace( /\s\s+/g, ' ' );
+                let offer_text = doc.querySelector("#sopp_feature_div").innerText.trim().slice();
+                var split_offer_text = offer_text.split('}')[24].replace( /\s\s+/g, ' ' );
+                console.log(split_offer_text);
+                var off_txt_br = split_offer_text.replace(/\Here's how (?=[A-Z])/g, '<br /><br />');
+                let price_tag = doc.querySelector("#priceblock_saleprice").innerText.slice(2,-3);
+                let original_tag = doc.querySelector("#price").innerText;
+                var tag_trim = original_tag.trim();
+                var tag_slice = tag_trim.slice(15);
+                var split_tag_splice = tag_slice.split('.')[0].trim();
+                console.log(split_tag_splice);
+                let discriptioin = doc.querySelector("#productTitle").innerText.trim();
+                console.log(discriptioin); 
+                let offer_fetch  = doc.querySelector("#regularprice_savings").innerText.trim().slice(-4,-2);
+                var offer_replace = offer_fetch.replace("(", "");
+                let ooff  = doc.querySelector("#regularprice_savings").innerText.trim().slice(10,-8);
+                var offee = ooff.trim();
+                var o = offee.slice(1);
+                let img = doc.querySelector("#landingImage").src;
+                let img_alt = doc.querySelector("#landingImage").alt;
+                document.getElementById("content").value= off_txt_br;//done
+                document.getElementById("price").value= price_tag;//done
+                document.getElementById("description").value= product_discreption_trim;//done
+                document.getElementById("title").value= discriptioin;//done
+                document.getElementById("offer").value= offer_replace;
+                document.getElementById("strike").value= split_tag_splice;
+                document.getElementById("img_url").value= img;
+                document.querySelector(".uel").textContent = img;
+                var pic = document.getElementById("setImage");
+                pic.setAttribute("src",img);
+                pic.setAttribute("alt",img_alt);
+                document.body.appendChild(pic); 
+            })
+            // .catch(function(error){
+            //     alert("Failed To Load Data",error);
+            // })
+    };
+
+    async function fetchamazondeal() {
+        const product_url = document.getElementById("producturl",'Access-Control-Allow-Credentials', 'true').value;
+        fetch(product_url)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(html){
+                var parser = new DOMParser();
+                let doc = parser.parseFromString(html,"text/html");
+                let productdescriptions = doc.querySelector("#productDescription").innerText;
+                var product_description_trim = productdescriptions.replace( /\s\s+/g, ' ' );
+                let offer_text = doc.querySelector("#sopp_feature_div").innerText.trim();
+                var split_offer_text = offer_text.split('}')[24].replace( /\s\s+/g, ' ' );
+                console.log(split_offer_text);
+                var off_txt_br = split_offer_text.replace(/\Here's how (?=[A-Z])/g, '<br /><br />');
+                let price_tag = doc.querySelector("#priceblock_dealprice").innerText.slice(2,-3);
+                let original_tag = doc.querySelector("#price").innerText;
+                var tag_trim = original_tag.trim();
+                var tag_slice = tag_trim.slice(15,-3196);
+                var original_price = tag_slice.replace( /\s\s+/g, ' ' );
+                var tag_trim = original_tag.trim();
+                var tag_slice = tag_trim.slice(15);
+                var split_tag_splice = tag_slice.split('.')[0].trim();
+                let discriptioin = doc.querySelector("#productTitle").innerText.trim();
+                console.log(original_price); 
+                let offer_fetch  = doc.querySelector("#dealprice_savings").innerText.trim().slice(-4,-2);
+                var offer_replace = offer_fetch.replace("(", "");
+                let ooff  = doc.querySelector("#dealprice_savings").innerText.trim().slice(10,-8);
+                var offee = ooff.trim();
+                var o = offee.slice(1);
+                let img = doc.querySelector("#landingImage").src;
+                let img_alt = doc.querySelector("#landingImage").alt;
+                document.getElementById("content").value= off_txt_br;//done
+                document.getElementById("price").value= price_tag;//done
+                document.getElementById("description").value= product_description_trim;//done
+                document.getElementById("title").value= discriptioin;//done
+                document.getElementById("offer").value= offer_replace;
+                document.getElementById("strike").value= split_tag_splice;
+                document.getElementById("img_url").value= img;
+            })
+            // .catch(function(error){
+            //     alert("Failed To Load Data",error);
+            // })
+    };
+</script>
